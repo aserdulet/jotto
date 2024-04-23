@@ -1,3 +1,10 @@
+## Checklist
+
+25/04
+[] - Re-usable component for start game / guess part
+[] - Validation animation
+[] - create notebook
+
 # Jotto
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.3.
