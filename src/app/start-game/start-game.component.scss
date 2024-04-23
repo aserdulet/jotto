@@ -1,0 +1,27 @@
+:host {
+    margin-top: 32px;
+    width: 300px;
+}
+
+
+mat-card {
+    padding: 8px;
+    .mat-mdc-card-header {
+        justify-content: center;
+        align-items: center;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        select {
+            width: 100%;
+            padding: 6px;
+            option {
+                padding: 4px;
+            }
+        }
+    }
+}

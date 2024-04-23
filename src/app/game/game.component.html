@@ -1,0 +1,51 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <mat-form-field>
+        <mat-label for="guess">Enter your guess: </mat-label>
+        <input 
+            id="guess"
+            formControlName="guessedWord"  
+            matInput 
+            placeholder="Enter your word" 
+            value="" 
+            min="5"
+            max="5">
+
+    </mat-form-field>
+
+    @if (form.controls.guessedWord; as gW) {
+        @if(gW.dirty && (gW.hasError('maxlength') || gW.hasError('minlength') )) {
+            <mat-error>
+                Insert a word of equal of 
+                <strong>{{gW.getError('maxlength').requiredLength || gW.getError('minlength').requiredLength}}</strong> 
+                characters!
+            </mat-error>
+        }
+
+        @if(gW.dirty && (gW.hasError('dictionaryWord'))) {
+            <mat-error>
+                This word does not exist!
+            </mat-error>
+        }
+
+        @if(gW.dirty && (gW.hasError('existWords'))) {
+            <mat-error>
+                This word <strong>{{gW.getError('existWords').existentWords}}</strong> is already inserted!
+            </mat-error>
+        }
+
+        @if(gW.pending) {
+            <mat-hint>
+                Checking answer...
+            </mat-hint>
+        }
+
+    }
+
+    <button [disabled]="!form.controls.guessedWord.value || form.invalid" type="submit">Submit</button>
+</form>
+
+
+<div>
+    <span>Inserted word</span> <span>0</span>
+    <pre>{{arr | json}}</pre>
+</div>
