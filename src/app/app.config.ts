@@ -3,7 +3,9 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideHttpClient } from '@angular/common/http';
+import { provideEcharts } from 'ngx-echarts';
+import { provideStore } from '@ngrx/store';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes), provideHttpClient()]
+  providers: [provideRouter(routes), provideHttpClient(), provideEcharts(), provideStore()]
 };

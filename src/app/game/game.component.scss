@@ -1,6 +1,62 @@
+:host {
+    margin-top: 32px;
+    width: 350px;
+    max-width: 350px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
 form {
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: center;
+    box-shadow: 2px 4px 8px #eaeaea;
+    padding: 8px;
+}
+
+.mat-mdc-card.mdc-card {
+    position: relative;
+    max-width: 350px;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    div {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+        h2, span {
+            line-height: 120%;
+            padding: 8px;
+            margin: unset;
+        }
+    }
+    .header {
+        flex-direction: row;
+    }
+    .row {
+        flex-direction: row;
+    }
+}
+
+.mat-mdc-form-field-error {
+    animation-name: showError;
+    animation-duration: 1s;
+    transition: 0.5s ease;
+
+}
+
+@keyframes showError {
+    from {
+        transform: translateY(-20px);
+        opacity: 0.6;
+    }
+    to {
+
+        transform: translateY(0);
+        opacity: 1;
+    }
+    
 }

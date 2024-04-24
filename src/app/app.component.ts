@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { StartGameComponent } from './start-game/start-game.component';
 import { GameComponent } from './game/game.component';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-root',
@@ -15,6 +16,10 @@ export class AppComponent {
   title = 'jotto';
 
   isGameStarted = false;
+
+  constructor(private store: Store) {
+
+  }
 
   gameStarted(ev: boolean) {
 

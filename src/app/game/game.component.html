@@ -1,51 +1,83 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <mat-form-field>
-        <mat-label for="guess">Enter your guess: </mat-label>
-        <input 
-            id="guess"
-            formControlName="guessedWord"  
-            matInput 
-            placeholder="Enter your word" 
-            value="" 
-            min="5"
-            max="5">
-
-    </mat-form-field>
-
-    @if (form.controls.guessedWord; as gW) {
-        @if(gW.dirty && (gW.hasError('maxlength') || gW.hasError('minlength') )) {
-            <mat-error>
-                Insert a word of equal of 
-                <strong>{{gW.getError('maxlength').requiredLength || gW.getError('minlength').requiredLength}}</strong> 
-                characters!
-            </mat-error>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <mat-form-field>
+            <mat-label for="guess">Enter your guess: </mat-label>
+            <input
+                [disabled]="win" 
+                id="guess"
+                formControlName="guessedWord"  
+                matInput 
+                placeholder="Enter your word">
+    
+        </mat-form-field>
+    
+        @if (form.controls.guessedWord; as gW) {
+            @if(gW.dirty && gW.hasError('required') ) {
+                <mat-error>
+                    The field is required
+                </mat-error>
+            }
+    
+            @if(gW.dirty && gW.hasError('pattern')) {
+                <mat-error>
+                    Insert a word of equal of 
+                    <strong>5</strong> 
+                    characters!
+                </mat-error>
+            }
+    
+            @if(gW.dirty && gW.hasError('uniqueLetters')) {
+                <mat-error>
+                    The inserted word has a number of  
+                    <strong>{{gW.getError('uniqueLetters').isNotUnique}}</strong> 
+                    duplicates!
+                </mat-error>
+            }
+    
+            @if(gW.dirty && (gW.hasError('dictionaryWord'))) {
+                <mat-error>
+                    This word does not exist! 
+                </mat-error>
+            }
+    
+            @if(gW.dirty && (gW.hasError('existWords'))) {
+                <mat-error>
+                    This word <strong>{{gW.getError('existWords').existentWords}}</strong> is already inserted!
+                </mat-error>
+            }
+    
+            @if(gW.pending) {
+                <mat-hint>
+                    Checking answer...
+                </mat-hint>
+            }
         }
+        <button mat-button   [disabled]="!form.controls.guessedWord.value || form.invalid || win" type="submit">Submit</button>
+    </form>
 
-        @if(gW.dirty && (gW.hasError('dictionaryWord'))) {
-            <mat-error>
-                This word does not exist!
-            </mat-error>
-        }
-
-        @if(gW.dirty && (gW.hasError('existWords'))) {
-            <mat-error>
-                This word <strong>{{gW.getError('existWords').existentWords}}</strong> is already inserted!
-            </mat-error>
-        }
-
-        @if(gW.pending) {
-            <mat-hint>
-                Checking answer...
-            </mat-hint>
-        }
-
+    @if(win) {
+        <p>Congrats, you won! The correct answer was: <strong>{{this.arr[this.arr.length - 1].word}}</strong>. You did it in <strong>{{this.arr.length}}</strong> tries!</p>
+        <button mat-button (click)="reset()">Reset</button>
     }
 
-    <button [disabled]="!form.controls.guessedWord.value || form.invalid" type="submit">Submit</button>
-</form>
 
+@if(arr.length > 0) {
+    <div echarts [options]="options" class="demo-chart"></div>
+    <mat-divider></mat-divider>
+    <mat-card>
+        <div class="header">
+            <h2>W</h2>
+            <h2>L</h2>
+        </div>
+        <mat-divider></mat-divider>
+        <div>
+            @for (item of arr; track item.id) {
+                <div class="row">
+                    <span>{{item.word}}</span> <span>{{item.matched}}</span>
+                </div>
+                <mat-divider></mat-divider>
+            }
+        </div>
+    </mat-card>
 
-<div>
-    <span>Inserted word</span> <span>0</span>
-    <pre>{{arr | json}}</pre>
-</div>
+}
+

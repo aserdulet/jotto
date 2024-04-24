@@ -1,9 +1,12 @@
 ## Checklist
 
-25/04
-[] - Re-usable component for start game / guess part
-[] - Validation animation
-[] - create notebook
+26/04
+[-] - Re-usable component for start game / guess part
+[x] - Validation animation
+[x] - create notebook
+[] - Add ngrx store
+[] - refactor the logic using state management
+[] - add indexDb
 
 # Jotto
 

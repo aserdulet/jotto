@@ -5,5 +5,12 @@
 <!-- @else { -->
     <!-- <app-start-game (isGameStarted)="gameStarted($event)"></app-start-game> -->
 <!-- } -->
-<app-game></app-game>
 
+@if (isGameStarted) {
+    <app-game (isGameStarted)="gameStarted($event)"></app-game>
+
+}
+
+@else {
+    <app-start-game (isGameStarted)="gameStarted($event)"></app-start-game>
+}
