@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AbstractControl, AsyncValidator, ValidationErrors } from '@angular/forms';
+import { Store, select } from '@ngrx/store';
 import { Observable, catchError, map, of } from 'rxjs';
+import { selectFeatureLn } from '../store/selectors/selectors';
 
 
 type DictionaryAPIResponse = {
@@ -13,15 +15,20 @@ type DictionaryAPIResponse = {
 })
 export class DictionaryWordValidator implements AsyncValidator {
 
-  language = 'ro';
-  constructor(private http: HttpClient) { }
+  language = '';
+  constructor(private http: HttpClient, private store: Store) {
+    this.getLanguage() 
+   }
+
+  getLanguage() {
+    return this.store.pipe(select(selectFeatureLn))
+  }
 
   validate(control: AbstractControl<string | null>): Observable<ValidationErrors | null> {
 
     if (this.language === 'en') {
       return this.http.get<DictionaryAPIResponse>(`https://api.dictionaryapi.dev/api/v2/entries/en/${control.value}`).pipe(
         map((val) => {
-          console.log('val', val)
           return val?.['title'] ? {
             dictionaryWord: {
               isWord: true
@@ -41,7 +48,6 @@ export class DictionaryWordValidator implements AsyncValidator {
         origin: '*'
       };
       return this.http.get<{query: {[key: string]: { pages: unknown}}}>(url, { params }).pipe(map(val => {
-        console.log(val)
         const page = val.query['pages'];
         const pageId = Object.keys(page)[0];
         return pageId !== "-1"

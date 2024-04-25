@@ -4,8 +4,8 @@
 [-] - Re-usable component for start game / guess part
 [x] - Validation animation
 [x] - create notebook
-[] - Add ngrx store
-[] - refactor the logic using state management
+[x] - Add ngrx store
+[x] - refactor the logic using state management
 [] - add indexDb
 
 # Jotto

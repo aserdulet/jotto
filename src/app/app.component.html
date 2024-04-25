@@ -1,14 +1,5 @@
-<!-- 
-@if (isGameStarted) {
-} -->
-
-<!-- @else { -->
-    <!-- <app-start-game (isGameStarted)="gameStarted($event)"></app-start-game> -->
-<!-- } -->
-
-@if (isGameStarted) {
+@if (gameStatus) {
     <app-game (isGameStarted)="gameStarted($event)"></app-game>
-
 }
 
 @else {

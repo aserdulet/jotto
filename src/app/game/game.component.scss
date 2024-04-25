@@ -18,28 +18,28 @@ form {
 
 .mat-mdc-card.mdc-card {
     position: relative;
-    max-width: 350px;
+    max-width: 100%;
     display: flex;
     flex-direction: column;
     padding: 16px;
-    div {
-        width: 100%;
+    background: #f9f9f9;
+    border-radius: 12px;
+    div.header {
         display: flex;
         justify-content: space-between;
-        flex-direction: column;
-        h2, span {
-            line-height: 120%;
-            padding: 8px;
-            margin: unset;
-        }
+        align-items: center;
+        padding-bottom: 8px;
     }
-    .header {
-        flex-direction: row;
-    }
-    .row {
-        flex-direction: row;
+    
+    div.row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
     }
 }
+
+
 
 .mat-mdc-form-field-error {
     animation-name: showError;

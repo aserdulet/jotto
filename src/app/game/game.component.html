@@ -1,3 +1,6 @@
+    
+    <button type="button" (click)="testReset()">just test the reset man</button>
+
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <mat-form-field>
             <mat-label for="guess">Enter your guess: </mat-label>
@@ -56,13 +59,24 @@
 
     @if(win) {
         <p>Congrats, you won! The correct answer was: <strong>{{this.arr[this.arr.length - 1].word}}</strong>. You did it in <strong>{{this.arr.length}}</strong> tries!</p>
-        <button mat-button (click)="reset()">Reset</button>
+        <button mat-button (click)="reset()">Click here to start again!</button>
     }
 
 
 @if(arr.length > 0) {
+    <button mat-button (click)="configureChart('toggle options')">{{configChart['showOptions'] ? 'Hide Grid' : 'Show Grid'}}</button>
+    @if(configChart['showOptions']) {
+        <ng-container>
+            <div style="width: 100%; display: flex; flex-direction: row; justify-content: space-around;">
+                <button mat-stroked-button (click)="configureChart('sort')">{{configChart['sort'] ? 'Initial Order' : 'Alphabetically'}}</button>
+                <button mat-stroked-button (click)="configureChart('highest')">{{configChart['highest'] ? 'Initial Order' : 'Highest'}}</button>
+            </div>
+            <button mat-stroked-button (click)="configureChart()">Initial Reset</button>
+        </ng-container>
     <div echarts [options]="options" class="demo-chart"></div>
     <mat-divider></mat-divider>
+    }
+
     <mat-card>
         <div class="header">
             <h2>W</h2>
