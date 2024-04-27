@@ -5,7 +5,8 @@
 [x] - Validation animation
 [x] - create notebook
 [x] - Add ngrx store
-[x] - refactor the logic using state management
+[x] - refactor the logic using state managemenk
+[] - add secret word generated api
 [] - add indexDb
 
 # Jotto

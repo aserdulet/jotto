@@ -1,6 +1,6 @@
 import { createReducer, on } from "@ngrx/store";
 import { Words } from "../../game/game.component";
-import { resetGameAction, selectLanguageAction, startGameAction } from "../actions/actions";
+import { createSecretWordAction, resetGameAction, selectLanguageAction, startGameAction } from "../actions/actions";
 
 
 export interface GameState {
@@ -34,6 +34,12 @@ export const initialState: GameState = {
         gameStatus: action.gameStatus
       }
     } ),
+    on(createSecretWordAction, (state, action) => {
+      return {
+        ...state,
+        secretWord: action.secretWord
+      };
+    })
 
   
   )

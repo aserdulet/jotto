@@ -4,6 +4,7 @@ import { Subject, of, pluck, takeUntil, tap } from 'rxjs';
 import { MaterialModule } from '../material/material.module';
 import { Store } from '@ngrx/store';
 import { selectLanguageAction, startGameAction } from '../store/actions/actions';
+import { SecretWordService } from '../service/secret-word.service';
 
 @Component({
   selector: 'app-start-game',
@@ -24,7 +25,7 @@ export class StartGameComponent implements OnInit, OnDestroy {
   })
 
   #unsubscribe$ = new Subject<void>();
-  constructor(private fb: FormBuilder, private store: Store) {
+  constructor(private fb: FormBuilder, private store: Store, private secretWord: SecretWordService) {
 
   }
 

@@ -40,7 +40,7 @@ export class GameComponent implements OnInit, OnDestroy {
     {
       validators: [
         Validators.required,
-        Validators.pattern(/^[a-zA-Z]{5}$/),
+        Validators.pattern(/^[a-zA-Z\u0400-\u04FF]{5}$/),
         uniqueLetters,
         existWords(this.arr)
       ],
