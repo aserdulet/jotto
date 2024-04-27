@@ -16,3 +16,8 @@ export const selectFeatureLn = createSelector(
     (state: any) => state.game,
     (feature: GameState) => feature.ln
 )
+
+export const selectSecretWord = createSelector(
+    (state: any) => state.game,
+    (feature: GameState) => feature.secretWord
+)

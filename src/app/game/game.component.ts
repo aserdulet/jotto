@@ -8,8 +8,9 @@ import { uniqueLetters } from './validators/uniqueLetters';
 import { matchLetters } from '../utils/utils';
 import { NgxEchartsDirective } from 'ngx-echarts';
 import { EChartsOption } from 'echarts';
-import { Store } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 import { resetGameAction, startGameAction } from '../store/actions/actions';
+import { selectFeatureGameStatus, selectSecretWord } from '../store/selectors/selectors';
 
 
 export interface Words {id: number, word: string, matched: number}
@@ -52,7 +53,7 @@ export class GameComponent implements OnInit, OnDestroy {
     ],
   })
 
-  secretWord = 'world';
+  secretWord = '';
 
   win = false;
 
@@ -79,6 +80,7 @@ export class GameComponent implements OnInit, OnDestroy {
     this.updateChartData()
 
     this.dictionaryWord.getLanguage().pipe(takeUntil(this.#unsubscribe$)).subscribe(v => this.dictionaryWord.language = v)
+    this.store.pipe(select(selectSecretWord), takeUntil(this.#unsubscribe$)).subscribe(v => this.secretWord = v)
   }
   
 
