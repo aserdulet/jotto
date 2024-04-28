@@ -9,8 +9,8 @@ import { matchLetters } from '../utils/utils';
 import { NgxEchartsDirective } from 'ngx-echarts';
 import { EChartsOption } from 'echarts';
 import { Store, select } from '@ngrx/store';
-import { resetGameAction, startGameAction } from '../store/actions/actions';
-import { selectFeatureGameStatus, selectSecretWord } from '../store/selectors/selectors';
+import { addGuessedWordAction, resetGameAction } from '../store/actions/actions';
+import { selectFeatureGuessedWords, selectSecretWord } from '../store/selectors/selectors';
 
 
 export interface Words {id: number, word: string, matched: number}
@@ -33,7 +33,7 @@ export class GameComponent implements OnInit, OnDestroy {
   @Output()
   isGameStarted = new EventEmitter<boolean>(false)
 
-  arr: Words[] = [];
+  guessedWords: Words[] = [];
   letterFrequency: { [key: string]: number } = {};
 
   form = this.fb.group({
@@ -43,7 +43,7 @@ export class GameComponent implements OnInit, OnDestroy {
         Validators.required,
         Validators.pattern(/^[a-zA-Z\u0400-\u04FF]{5}$/),
         uniqueLetters,
-        existWords(this.arr)
+        existWords(this.guessedWords)
       ],
       asyncValidators: [
         this.dictionaryWord.validate.bind(this.dictionaryWord)
@@ -81,6 +81,7 @@ export class GameComponent implements OnInit, OnDestroy {
 
     this.dictionaryWord.getLanguage().pipe(takeUntil(this.#unsubscribe$)).subscribe(v => this.dictionaryWord.language = v)
     this.store.pipe(select(selectSecretWord), takeUntil(this.#unsubscribe$)).subscribe(v => this.secretWord = v)
+    this.store.pipe(select(selectFeatureGuessedWords), takeUntil(this.#unsubscribe$)).subscribe(v => this.guessedWords = v)
   }
   
 
@@ -97,11 +98,13 @@ export class GameComponent implements OnInit, OnDestroy {
     }
 
     if (guessedWord) {
-      this.arr.push({
-        id: this.arr.length,
-        word: guessedWord,
-        matched: matchLetters(guessedWord, this.secretWord) 
-      });
+      this.store.dispatch(addGuessedWordAction({
+        guessedWords: {
+          id: this.guessedWords.length,
+          word: guessedWord,
+          matched: matchLetters(guessedWord, this.secretWord)
+        }
+      }))
 
       this.updateLetterFrequency(guessedWord);
       this.updateChartData();
@@ -132,7 +135,7 @@ export class GameComponent implements OnInit, OnDestroy {
 
   private updateChartData(configChart: {[key:string]: boolean} = {sort: false, highest: false, showOptions: false}) {
     const lettersData =  Object.keys(this.letterFrequency);
-    const xAxisData = configChart['sort'] ? lettersData.sort() : lettersData
+    const xAxisData = configChart['sort'] || configChart['highest'] ? lettersData.sort() : lettersData
     const seriesData = xAxisData.map(letter => this.letterFrequency[letter]);
 
 
@@ -158,9 +161,6 @@ export class GameComponent implements OnInit, OnDestroy {
 
   reset() {
     this.store.dispatch(resetGameAction())}
-  testReset() {
-    this.store.dispatch(startGameAction({gameStatus: false}))
-  }
 
   configureChart(instruction: string = 'default'): void {
 

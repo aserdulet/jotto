@@ -1,6 +1,4 @@
     
-    <button type="button" (click)="testReset()">just test the reset man</button>
-
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <mat-form-field>
             <mat-label for="guess">Enter your guess: </mat-label>
@@ -58,12 +56,12 @@
     </form>
 
     @if(win) {
-        <p>Congrats, you won! The correct answer was: <strong>{{this.arr[this.arr.length - 1].word}}</strong>. You did it in <strong>{{this.arr.length}}</strong> tries!</p>
+        <p>Congrats, you won! The correct answer was: <strong>{{this.guessedWords[this.guessedWords.length - 1].word}}</strong>. You did it in <strong>{{this.guessedWords.length}}</strong> tries!</p>
         <button mat-button (click)="reset()">Click here to start again!</button>
     }
 
 
-@if(arr.length > 0) {
+@if(guessedWords.length > 0) {
     <button mat-button (click)="configureChart('toggle options')">{{configChart['showOptions'] ? 'Hide Grid' : 'Show Grid'}}</button>
     @if(configChart['showOptions']) {
         <ng-container>
@@ -84,7 +82,7 @@
         </div>
         <mat-divider></mat-divider>
         <div>
-            @for (item of arr; track item.id) {
+            @for (item of guessedWords; track item.id) {
                 <div class="row">
                     <span>{{item.word}}</span> <span>{{item.matched}}</span>
                 </div>
