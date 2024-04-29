@@ -6,8 +6,8 @@
 [x] - create notebook
 [x] - Add ngrx store
 [x] - refactor the logic using state managemenk
-[] - add secret word generated api
-[] - add indexDb
+[x] - add secret word generated api
+[x] - add indexDb -> replaced using localstorage
 
 # Jotto
 

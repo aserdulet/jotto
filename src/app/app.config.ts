@@ -9,6 +9,7 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { gameReducer } from './store/reducer/game.reducer';
 import { provideEffects } from '@ngrx/effects';
 import { SecretWordEffect } from './store/effects/secret-word.effect';
+import { StorageEffect } from './store/effects/storage.effect';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -18,7 +19,7 @@ export const appConfig: ApplicationConfig = {
       provideStore({
         game: gameReducer
       }),
-      provideEffects(SecretWordEffect),
+      provideEffects(SecretWordEffect, StorageEffect),
       provideStoreDevtools({
         // defaults
         maxAge: 25, // Retains last 25 states

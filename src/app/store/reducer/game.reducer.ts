@@ -1,6 +1,6 @@
 import { createReducer, on } from "@ngrx/store";
 import { Words } from "../../game/game.component";
-import { addGuessedWordAction, createSecretWordAction, resetGameAction, selectLanguageAction, startGameAction } from "../actions/actions";
+import { addGuessedWordAction, createSecretWordAction, loadStorageAction, resetGameAction, selectLanguageAction, startGameAction } from "../actions/actions";
 
 
 export interface GameState {
@@ -10,7 +10,10 @@ export interface GameState {
     ln: string;
   }
 
-export const initialState: GameState = {
+
+  const {game}:any = JSON.parse(localStorage.getItem('Jotto') ?? '{}')
+
+export const initialState: GameState = game || {
     gameStatus: false,
     secretWord: '',
     guessedWords: [],
@@ -20,7 +23,12 @@ export const initialState: GameState = {
   export const gameReducer = createReducer(
     initialState,
     on(resetGameAction, () => {
-      return initialState
+      return {
+        gameStatus: false,
+        secretWord: '',
+        guessedWords: [],
+        ln: 'en'
+      }
     }),
     on(selectLanguageAction, (state, action) => {
       return {
@@ -44,6 +52,12 @@ export const initialState: GameState = {
       return {
         ...state,
         guessedWords: [...state.guessedWords, action.guessedWords]
+      }
+    }),
+    on(loadStorageAction, (state, action) => {
+      return {
+        ...state,
+        ...action.gameState
       }
     })
 
