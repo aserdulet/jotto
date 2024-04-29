@@ -67,11 +67,10 @@
         <ng-container>
             <div style="width: 100%; display: flex; flex-direction: row; justify-content: space-around;">
                 <button mat-stroked-button (click)="configureChart('sort')">{{configChart['sort'] ? 'Initial Order' : 'Alphabetically'}}</button>
-                <button mat-stroked-button (click)="configureChart('highest')">{{configChart['highest'] ? 'Initial Order' : 'Highest'}}</button>
             </div>
             <button mat-stroked-button (click)="configureChart()">Initial Reset</button>
         </ng-container>
-    <div echarts [options]="options" class="demo-chart"></div>
+    <div echarts [options]="options" class="demo-chart" (select)="onChartClick($event)"></div>
     <mat-divider></mat-divider>
     }
 

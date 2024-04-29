@@ -135,7 +135,7 @@ export class GameComponent implements OnInit, OnDestroy {
 
   private updateChartData(configChart: {[key:string]: boolean} = {sort: false, highest: false, showOptions: false}) {
     const lettersData =  Object.keys(this.letterFrequency);
-    const xAxisData = configChart['sort'] || configChart['highest'] ? lettersData.sort() : lettersData
+    const xAxisData = configChart['sort']  ? lettersData.sort() : lettersData
     const seriesData = xAxisData.map(letter => this.letterFrequency[letter]);
 
 
@@ -150,13 +150,16 @@ export class GameComponent implements OnInit, OnDestroy {
         minInterval: 1,
       },
       series: [{
-        data: configChart['highest'] ? seriesData.sort((a,b) => a-b) : seriesData,
+        data: seriesData,
         type: 'bar',
         animationDelay: idx => idx * 10
       }],
       animationEasing: 'elasticOut',
       animationDelayUpdate: idx => idx * 5
     };
+  }
+
+  onChartClick(event: any) {
   }
 
   reset() {
@@ -171,10 +174,6 @@ export class GameComponent implements OnInit, OnDestroy {
       case 'sort':
         this.configChart['sort'] = !this.configChart['sort']
         this.updateChartData(this.configChart);
-        break;
-      case 'highest':
-        this.configChart['highest'] = !this.configChart['highest']
-        this.updateChartData(this.configChart);  
         break;
       default:
         this.updateChartData()  
