@@ -26,20 +26,21 @@ export class DictionaryWordValidator implements AsyncValidator {
 
   validate(control: AbstractControl<string | null>): Observable<ValidationErrors | null> {
 
-    if (this.language === 'en') {
-      return this.http.get<DictionaryAPIResponse>(`https://api.dictionaryapi.dev/api/v2/entries/en/${control.value}`).pipe(
-        map((val) => {
-          return val?.['title'] ? {
-            dictionaryWord: {
-              isWord: true
-            }
-          } : null 
-        }),
-        catchError(() => of({ dictionaryWord: {unkownError: true}}))
-      )
-    }
+    // Currently CORS errors when the project is built for PROD
+    // if (this.language === 'en') {
+    //   return this.http.get<DictionaryAPIResponse>(`https://api.dictionaryapi.dev/api/v2/entries/en/${control.value}`).pipe(
+    //     map((val) => {
+    //       return val?.['title'] ? {
+    //         dictionaryWord: {
+    //           isWord: true
+    //         }
+    //       } : null 
+    //     }),
+    //     catchError(() => of({ dictionaryWord: {unkownError: true}}))
+    //   )
+    // }
 
-    if (this.language === 'ro' || this.language === 'bg') {
+    if (this.language === 'ro' || this.language === 'bg' || this.language === 'en') {
       const url = `https://${this.language}.wiktionary.org/w/api.php`;
       const params: any = {
         action: 'query',
